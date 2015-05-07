@@ -19,13 +19,20 @@ if(settings.textOnFind) {
 
 
 
-
+// Main programming flow
 Q.fcall(getHomeLocation(settings.home))
   .then(getNearbyDMV(dmvInfo, settings.maxDistanceMiles))
   .then(checkLoop(settings))
   .catch(function(e){console.log(e);});
 
 
+
+
+/**
+ * Check Loop
+ * @param  {settings} settings User Settings
+ * @return {None}          Never actually returns
+ */
 function checkLoop(settings) {
   return function(dmvInfo) {
     var promise = Q.resolve();
@@ -37,13 +44,21 @@ function checkLoop(settings) {
           
     }
     return promise.then(function() {
-      return Q.resolve(dmvInfo)
+      return Q.resolve(dmvInfo);
     }).delay(settings.checkEveryMinutes*1000*60).then(checkLoop(settings)).catch(function(e){
             console.log("Error: "+JSON.stringify(e));
           });
   };
 }
 
+/**
+ * Make DMV Request
+ *
+ * Makes a https request to the DMV website and returns the data as a promise
+ * @param  {Object} dmvInfo  DMV's information
+ * @param  {Object} settings User Settings
+ * @return {Promise}         Promise to return the data
+ */
 function makeDMVRequest(dmvInfo, settings) {
   return function() {
     
@@ -120,7 +135,13 @@ function makeDMVRequest(dmvInfo, settings) {
 
 
 
-
+/**
+ * Get Home Location
+ *
+ * Returns promise for the gps coordinates of the home address
+ * @param  {String} home Home Address
+ * @return {Object}      Promise for GPS Coordinates
+ */
 function getHomeLocation(home) {
   return function() {
   var deferred = Q.defer();
@@ -135,7 +156,18 @@ function getHomeLocation(home) {
     return deferred.promise;
   };
 }
+/**
+ * Get Nearby DMVs
+ * Get all DMVs within a radius
+ * @param  {Object} dmvInfo           All DMV information
+ * @param  {Integer} maxDistanceMiles Max distance to travel from Home
+ * @return {Function}                 Function to pass to Q
+ */
 function getNearbyDMV(dmvInfo, maxDistanceMiles) {
+  /**
+   * @param  {[type]} homeLocation GPS Coordinates of home
+   * @return {[type]}              An array of DMVs
+   */
   return function(homeLocation) {
     var validDMVLocations = [];
     for(var dmvName in dmvInfo) {
@@ -155,7 +187,16 @@ function getNearbyDMV(dmvInfo, maxDistanceMiles) {
 
   };
 }
+/**
+ * Check appointment results
+ * @param  {String} name     DMV Name
+ * @param  {Object} schedule Schedule of classes
+ * @return {function}        returns a function for Q to call
+ */
 function checkAppointmentResult(name, schedule) {
+  /**
+   * @param  {String} str HTML results of the page request
+   */
   return function(str) {
     var $ = cheerio.load(str);
 
