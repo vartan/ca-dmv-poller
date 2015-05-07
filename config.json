@@ -1,0 +1,68 @@
+{
+    "behindTheWheelTest": true,
+    "maxDistanceMiles":   25,
+    "checkEveryMinutes":  20,
+    "secondsBetweenRequests": 1,
+    "findAppointmentWithinDays": 7,
+    "home":       "90731",
+    "textOnFind": true,
+    "textNumber": "",
+    "appointmentInfo": {
+        "firstName":  "",
+        "lastName":   "",
+        "telArea":    "",
+        "telPrefix":  "",
+        "telSuffix":  "",
+        "_comment":
+            "ONLY HAVE TO FILL BELOW FOR BEHIND THE WHEEL TEST, two digit day/month",
+        "dlNumber":   "",
+        "birthMonth": "",
+        "birthDay":   "",
+        "birthYear":  ""
+    },
+    "dayOfWeeks": [
+        {
+            "name":       "Sunday",
+            "allowed":    true,
+            "startHour":  9,
+            "endHour":    17
+
+        },
+        {
+            "name":       "Monday",
+            "allowed":    true,
+            "startHour":  9,
+            "endHour":    17
+        },
+        {
+            "name":       "Tuesday",
+            "allowed":    true,
+            "startHour":  9,
+            "endHour":    17
+        },
+        {
+            "name":       "Wednesday",
+            "allowed":    true,
+            "startHour":  9,
+            "endHour":    17
+        },
+        {
+            "name":       "Thursday",
+            "allowed":    true,
+            "startHour":  9,
+            "endHour":    17
+        },
+        {
+            "name":        "Friday",
+            "allowed":     true,
+            "startHour":  9,
+            "endHour":    17
+        },
+        {
+            "name":       "Saturday",
+            "allowed":    true,
+            "startHour":  9,
+            "endHour":    17
+        }
+    ]
+}
