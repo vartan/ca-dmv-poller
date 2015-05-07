@@ -1,3 +1,4 @@
+var Q = require("q");
 var querystring = require('querystring');
 var sprintf = require("sprintf-js").sprintf;
 var text = require("mtextbelt");
@@ -5,9 +6,11 @@ var gm = require('googlemaps');
 var https = require("https");
 var cheerio = require("cheerio");
 var geolib = require("geolib");
+
+
+
 var settings = require("./config.json");
 var dmvInfo = require("./DMV_Info.json");
-var Q = require("q");
 console.log("Checking every "+settings.checkEveryMinutes+" minutes, at DMV offices "+settings.maxDistanceMiles+" miles from "+settings.home);
 if(settings.textOnFind) {
   console.log("Will text "+settings.textNumber+" when a match is found.");
@@ -165,19 +168,21 @@ function checkAppointmentResult(name, schedule) {
     // only on a saturday
     var daysUntil = timeDiff/1000/60/60/24;
     for(var day in schedule) {
-      var isDayOfWeek = day == date.getDay();
+      // why is triple equals not working?
+      var isDayOfWeek = parseInt(day) === parseInt(date.getDay());
       var withinTime = date.getHours() >= schedule[day].startHour &&
                         date.getHours() < schedule[day].endHour;
       var withinDays = daysUntil < settings.findAppointmentWithinDays;
       //console.log("within "+settings.findAppointmentWithinDays+" days: "+withinDays);
       if(withinDays && isDayOfWeek && withinTime) {
         console.log("found match!");
-        if(textOnFind)
+        if(settings.textOnFind) {
           text.send(settings.textNumber, sprintf("%20s", name)+": "+formatDate(date), function(){});
+        }
       }
 
     }
-  }
+  };
 }
 
 
