@@ -11,6 +11,7 @@ var geolib = require("geolib");
 
 var settings = require("./config.json");
 var dmvInfo = require("./DMV_Info.json");
+var found = {};
 console.log("Checking every "+settings.checkEveryMinutes+" minutes, at DMV offices "+settings.maxDistanceMiles+" miles from "+settings.home);
 if(settings.textOnFind) {
   console.log("Will text "+settings.textNumber+" when a match is found.");
@@ -45,9 +46,9 @@ function checkLoop(settings) {
     }
     return promise.then(function() {
       return Q.resolve(dmvInfo);
-    }).delay(settings.checkEveryMinutes*1000*60).then(checkLoop(settings)).catch(function(e){
+    }).delay(settings.checkEveryMinutes*1000*60).fail(function(e){
             console.log("Error: "+JSON.stringify(e));
-          });
+          }).then(checkLoop(settings));
   };
 }
 
@@ -156,6 +157,7 @@ function getHomeLocation(home) {
     return deferred.promise;
   };
 }
+
 /**
  * Get Nearby DMVs
  * Get all DMVs within a radius
@@ -211,14 +213,22 @@ function checkAppointmentResult(name, schedule) {
     for(var day in schedule) {
       // why is triple equals not working?
       var isDayOfWeek = parseInt(day) === parseInt(date.getDay());
+      //console.log(schedule[day].allowed)
       var withinTime = date.getHours() >= schedule[day].startHour &&
                         date.getHours() < schedule[day].endHour;
       var withinDays = daysUntil < settings.findAppointmentWithinDays;
       //console.log("within "+settings.findAppointmentWithinDays+" days: "+withinDays);
-      if(withinDays && isDayOfWeek && withinTime) {
-        console.log("found match!");
-        if(settings.textOnFind) {
-          text.send(settings.textNumber, sprintf("%20s", name)+": "+formatDate(date), function(){});
+      if(withinDays && isDayOfWeek && withinTime && schedule[day].allowed) {
+
+        if(!found[dateString+name]) {
+          found[dateString+name] = true;
+          console.log("FOUND NEW MATCH! \007 \n");
+
+          if(settings.textOnFind) {
+            text.send(settings.textNumber, sprintf("%20s", name)+": "+formatDate(date), function(){});
+          }
+        } else {
+          console.log("found duplicate match!");
         }
       }
 
