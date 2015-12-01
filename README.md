@@ -91,7 +91,9 @@ Here is the configuration file with annotations.
             "endHour":    17
         }
     ]
-}```
+}
+
+```
 
 Caveats
 ----
