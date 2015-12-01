@@ -1,3 +1,4 @@
+"use strict";
 var Q = require("q");
 var querystring = require('querystring');
 var sprintf = require("sprintf-js").sprintf;
@@ -42,7 +43,7 @@ function checkLoop(settings) {
           .then(makeDMVRequest(dmvInfo[i], settings))
           .then(checkAppointmentResult(dmvInfo[i].name, settings.dayOfWeeks))
           .delay(1000*settings.secondsBetweenRequests);
-          
+
     }
     return promise.then(function() {
       return Q.resolve(dmvInfo);
@@ -62,7 +63,7 @@ function checkLoop(settings) {
  */
 function makeDMVRequest(dmvInfo, settings) {
   return function() {
-    
+
     var deferred = Q.defer();
     try {
       var url="www.dmv.ca.gov";
@@ -123,7 +124,7 @@ function makeDMVRequest(dmvInfo, settings) {
       deferred.reject(e);
     }
     return deferred.promise;
-    
+
   };
 }
 
@@ -222,11 +223,12 @@ function checkAppointmentResult(name, schedule) {
 
         if(!found[dateString+name]) {
           found[dateString+name] = true;
-          console.log("FOUND NEW MATCH! \007 \n");
+          console.log("FOUND NEW MATCH! \x07 \n");
 
           if(settings.textOnFind) {
             text.send(settings.textNumber, sprintf("%20s", name)+": "+formatDate(date), function(){});
           }
+
         } else {
           console.log("found duplicate match!");
         }
@@ -240,7 +242,7 @@ function checkAppointmentResult(name, schedule) {
 
 /**
  * Format Date
- * @param  {Date}        date 
+ * @param  {Date}        date
  * @return {String}      Human readable date
  */
 function formatDate(date) {
