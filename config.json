@@ -1,24 +1,24 @@
 {
     "behindTheWheelTest": true,
-    "maxDistanceMiles":   25,
-    "checkEveryMinutes":  20,
+    "maxDistanceMiles":   30,
+    "checkEveryMinutes":  10,
     "secondsBetweenRequests": 1,
     "findAppointmentWithinDays": 7,
-    "home":       "90731",
+    "home":       "95134",
     "textOnFind": true,
-    "textNumber": "",
+    "textNumber": "6503077985",
     "appointmentInfo": {
-        "firstName":  "",
-        "lastName":   "",
-        "telArea":    "",
-        "telPrefix":  "",
-        "telSuffix":  "",
+        "firstName":  "John",
+        "lastName":   "Doe",
+        "telArea":    "310",
+        "telPrefix":  "555",
+        "telSuffix":  "5555",
         "_comment":
             "ONLY HAVE TO FILL BELOW FOR BEHIND THE WHEEL TEST, two digit day/month",
-        "dlNumber":   "",
-        "birthMonth": "",
-        "birthDay":   "",
-        "birthYear":  ""
+        "dlNumber":   "Y380563",
+        "birthMonth": "02",
+        "birthDay":   "06",
+        "birthYear":  "1982"
     },
     "dayOfWeeks": [
         {

@@ -205,6 +205,10 @@ function checkAppointmentResult(name, schedule) {
 
     var dateString = $("#ApptForm").parent().parent().parent().find("tr:nth-child(3) .alert").text().replace(" at "," ");
      console.log(name+":\t"+dateString);
+     if(!dateString){
+      displayErrors($);
+      return;
+     }
     var date = new Date(Date.parse(dateString));
     var timeDiff = (date - (new Date()));
     // verify saturday
@@ -238,6 +242,13 @@ function checkAppointmentResult(name, schedule) {
   };
 }
 
+
+function displayErrors($){
+  console.log('Match failed - check your config.json. Possible reasons: ')
+  $('.validation_error').each(function(i, element){
+    console.log(element.firstChild.data);
+  })
+}
 
 
 /**
