@@ -1,6 +1,6 @@
 {
   "name": "dmv_poller",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "checks dmv locations for available appts",
   "main": "poll.js",
   "dependencies": {
